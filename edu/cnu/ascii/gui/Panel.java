@@ -43,9 +43,8 @@ public class Panel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String words = fieldDecode.getText();
-				String binary = Base64.toBase64(words);
-				String base = Base64.toWords(binary);
-				fieldEncode.setText(base);
+				String binary = Base64.fromBase64(words);
+				fieldEncode.setText(binary);
 			}
 			
 		});
@@ -56,8 +55,7 @@ public class Panel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String words = fieldEncode.getText();
-				String binary = Base64.toBinary(words);
-				String base = Base64.toBase64(binary);
+				String base = Base64.toBase64(words);
 				fieldDecode.setText(base);
 			}
 			

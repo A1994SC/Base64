@@ -52,6 +52,7 @@ public class Base64 {
 	}
 
 	public static String toBase64(String base) {
+		base = toBinary(base);
 		if (base.length() % SizeSix == 0) {
 			return holder(base);
 		} else if (base.length() % 6 == 2) {
@@ -61,13 +62,14 @@ public class Base64 {
 			base += "00";
 			return holder(base) + "=";
 		} else {
-			throw new NullPointerException();
+			System.err.println("Wait what?");
+			return "Dat Fqu";
 		}
 	}
 
 	private static String holder(String base) {
 		int div = base.length() / SizeSix;
-		char[][] six = new char[div][SizeSix];
+		char[][] six = new char[div + 1][SizeSix];
 
 		for (int i = 0, j = 0, k = 0; k < base.length(); i++, k++) {
 			if (i >= SizeSix) {
@@ -101,7 +103,7 @@ public class Base64 {
 		return conver;
 	}
 
-	public static String toBinary(String testWord) {
+	private static String toBinary(String testWord) {
 		String letters = "";
 		char[] word = testWord.toCharArray();
 		
@@ -184,6 +186,29 @@ public class Base64 {
 		}
 		
 		return sum;
+	}
+	
+	public static String fromBase64(String bianry){
+		int lenght = bianry.length() - 1;
+		char last = bianry.charAt(lenght), secL = bianry.charAt(lenght - 1);
+		
+		char[] derp = bianry.toCharArray();
+		String theEnd = "";
+		
+		for(int i = 0; i < derp.length; i++){
+			int temp = Base64.indexOf(derp[i]);
+			theEnd += toBinary(temp, SizeSix);
+		}
+		
+		theEnd = toWords(theEnd);
+		
+		if(last == '=' && secL != '='){
+			theEnd = theEnd.substring(0, lenght - 2);
+		} else if(last == '=' && secL == '='){
+			theEnd = theEnd.substring(0, lenght - 3);
+		}
+		
+		return theEnd;
 	}
 	
 }
